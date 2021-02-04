@@ -54,7 +54,7 @@ function App() {
     setTasks(tasks.filter((task) => task.id !== id))
   }
 
-  const tottleReminder = async (id) => {
+  const toggleReminder = async (id) => {
     const taskToToggle = await fetchTask(id)
     const updatedTask = { ...taskToToggle, reminder: !taskToToggle.reminder }
 
@@ -81,23 +81,24 @@ function App() {
           onAdd={() => setShowAddTask(!showAddTask)}
           showAdd={showAddTask}
         />
-        <Route path='' exact render={(props) => {
-          <>
-            {
-              showAddTask && <AddTask onAdd={addTask}/>
-            }
-            {
-              tasks.length > 0 ?
-                <Tasks 
-                  tasks={tasks} 
+        <Route
+          path='/'
+          exact
+          render={(props) => (
+            <>
+              {showAddTask && <AddTask onAdd={addTask} />}
+              {tasks.length > 0 ? (
+                <Tasks
+                  tasks={tasks}
                   onDelete={deleteTask}
-                  onToggle={tottleReminder}
+                  onToggle={toggleReminder}
                 />
-              : 
+              ) : (
                 'No Tasks To Show'
-            }
-          </>
-        }} />
+              )}
+            </>
+          )}
+        />
         <Route path='/about' component={About} />
         <Footer/>
       </div>
